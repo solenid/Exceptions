@@ -22,8 +22,26 @@ public class User {
 
 
 
+    @GetMapping("getSingleUser/{username}")
+    public String getUser(@PathVariable("username") String s){
+        boolean check = false;
+        String agge="0";
+        for (int i = 0, usersSize = users.size(); i < usersSize; i++) {
+            String user = users.get(i);
+            if (user.equals(s)) {
+                check = true;
+                agge = ages.get(i);
+                break;
+            }
+        }
+        if(!check){
+            throw new NotFoundException();
+        } else{
+            return s + " " + agge;
+        }
 
-    @GetMapping("User/{age}/{direction}")
+    }
+    @GetMapping("getListOfUsers/{age}/{direction}")
     public Map<String, String> addUser(@PathVariable("age") Integer age,@PathVariable("direction") String dir){
         ua.clear();
         values.clear();
@@ -114,25 +132,7 @@ public class User {
 
 
     }
-    @GetMapping("get/{username}")
-    public String getUser(@PathVariable("username") String s){
-        boolean check = false;
-        String agge="0";
-        for (int i = 0, usersSize = users.size(); i < usersSize; i++) {
-            String user = users.get(i);
-            if (user.equals(s)) {
-                check = true;
-                agge = ages.get(i);
-                break;
-            }
-        }
-        if(!check){
-            throw new NotFoundException();
-        } else{
-            return s + " " + agge;
-        }
 
-    }
     @DeleteMapping("delete/{deleted}")
     public void deleteUser(@PathVariable("deleted") String s1){
         boolean check = false;
